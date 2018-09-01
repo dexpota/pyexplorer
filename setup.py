@@ -20,7 +20,8 @@ setuptools.setup(
         "Programming Language :: Python :: 2"
     ],
     install_requires=[
-        "termcolor"
+        "termcolor",
+        "prompt_toolkit"
     ],
     url="https://github.com/dexpota/pyexplorer",
     packages=setuptools.find_packages(),
