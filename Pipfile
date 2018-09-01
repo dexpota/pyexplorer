@@ -8,5 +8,6 @@ python_version = "2.7"
 
 [packages]
 termcolor = "*"
+prompt-toolkit = "*"
 
 [dev-packages]
