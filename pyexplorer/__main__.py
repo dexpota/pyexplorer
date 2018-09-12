@@ -1,28 +1,29 @@
 from argparse import ArgumentParser
 from .interactive import interactive
 from .pyexplorer import dir_filter, import_module, process_attribute, attribute_format, module_format, extract, extract_package
+import logging
 import __builtin__
+
+logger = logging.getLogger(__name__)
+
+
+def parse_args():
+    parser = ArgumentParser()
+    # noinspection PyTypeChecker
+    parser.add_argument("module", type=str, nargs="?", help="Module or package name.")
+    parser.add_argument("-a", action="store_true", help="Show everything inside the module/package.")
+    # noinspection PyTypeChecker
+    parser.add_argument("--level", type=int, default=0, help="List all methods inherited up to this level.")
+    parser.add_argument("--debug", action="store_true", default=False, help="Debug mode.")
+
+    return parser.parse_args()
 
 
 def main():
-    parser = ArgumentParser()
+    args = parse_args()
 
-    sp = parser.add_subparsers()
-    interactively = sp.add_parser('interactive', help='Start interactively')
-    interactively.set_defaults(which='interactive')
-
-    p = ArgumentParser()
-    p.add_argument("module", help="Module or package name.", type=str)
-    p.add_argument("-i", action="store_true", help="Start an interactive session.")
-    p.add_argument("-a", action="store_true", help="Show everything inside the module/package.")
-    p.add_argument("--level", type=int, default=0, help="List all methods inherited up to this level.")
-    p.add_argument("--debug", action="store_true", default=False, help="Debug mode.")
-
-    sp.add_parser(p)
-
-    args = parser.parse_args()
-
-    if args.which == "interactive":
+    if args.module is None:
+        logger.debug("module is None, starting interactive session.")
         interactive()
         return
 
