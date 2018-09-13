@@ -54,23 +54,30 @@ def extract(module, attribute_filter):
     return contents
 
 
-def extract_package(package):
+def extract_package(package, attribute_filter):
+    """
+    Extract from a package
+    :param package:
+    :param attribute_filter:
+    :return:
+    """
     package_path = package.__path__[0]
     modules = glob("{}/*.so".format(package_path)) + glob("{}/*.py".format(package_path))
 
     contents = []
     for module in modules:
-        module_name = package.__name__ + "." + os.path.splitext(os.path.basename(module))[0]
+        module_name = os.path.splitext(os.path.basename(module))[0]
+        full_module_name = package.__name__ + "." + os.path.splitext(os.path.basename(module))[0]
         try:
-            m = import_module(module_name)
-            module_name = m.__name__
+            m = import_module(full_module_name)
             type_name = type(m).__name__
             doc = m.__doc__
 
             if not doc:
                 doc = "no docstring"
 
-            contents.append((type_name, module_name, doc))
+            if attribute_filter(module_name):
+                contents.append((type_name, full_module_name, doc))
         except:
             pass
 
@@ -115,6 +122,12 @@ def method_filter(item, _class, depth=0):
 
 
 def dir_filter(item):
+    """
+    Accept each item which doesn't start with _
+    :type item: str
+    :param item: a string item to filter
+    :return: true if item doesn't start with _
+    """
     return not item.startswith("_")
 
 

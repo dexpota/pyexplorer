@@ -8,6 +8,10 @@ logger = logging.getLogger(__name__)
 
 
 def parse_args():
+    """
+    Parse command line arguments
+    :return: an object of command line arguments
+    """
     parser = ArgumentParser()
     # noinspection PyTypeChecker
     parser.add_argument("module", type=str, nargs="?", help="Module or package name.")
@@ -27,6 +31,7 @@ def main():
         interactive()
         return
 
+    # list of filtering functions
     filters = []
     if not args.a:
         filters.append(dir_filter)
@@ -49,13 +54,12 @@ def main():
         c = process_attribute(attribute, lambda x: all([f(x) for f in filters]))
         formatter = attribute_format
     else:
-        pass # try import global_path
         module_package = import_module(module_package_name)
         if not local_path:
             module_package = import_module(module_package_name)
 
             if hasattr(module_package, "__path__"):
-                c = extract_package(module_package)
+                c = extract_package(module_package, lambda x: all([f(x) for f in filters]))
             else:
                 c = extract(module_package, lambda x: all([f(x) for f in filters]))
 
