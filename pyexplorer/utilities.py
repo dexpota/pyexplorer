@@ -1,4 +1,4 @@
-from .pyexplorer import import_module
+from importlib import import_module
 
 
 def find_innermost_module(full_qualifier):

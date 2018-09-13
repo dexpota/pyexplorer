@@ -11,3 +11,4 @@ termcolor = "*"
 prompt-toolkit = "*"
 
 [dev-packages]
+pytest = "*"
