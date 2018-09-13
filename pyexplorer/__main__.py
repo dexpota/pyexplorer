@@ -36,6 +36,9 @@ def main():
     if not args.a:
         filters.append(dir_filter)
 
+    # Try importing the module specified in the command line.
+    # logging.config
+    # logging.config.fileConfig
     for i in range(args.module.count(".") + 1):
         try:
             module_package_name = args.module.rsplit('.', i)[0]
