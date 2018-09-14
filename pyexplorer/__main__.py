@@ -39,9 +39,6 @@ def main():
     # <package>.<module>.<function> -> "<package>.<module>", "<function>"
     module_package_name, attribute_name = find_innermost_module(args.module)
 
-    if args.debug:
-        assert ".".join(filter(lambda s: s != "", [module_package_name, attribute_name])) == args.module
-
     if not module_package_name:
         attribute = getattr(__builtin__, args.module)
         c = process_attribute(attribute, lambda x: all([f(x) for f in filters]))
