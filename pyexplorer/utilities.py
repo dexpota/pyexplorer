@@ -33,4 +33,6 @@ def find_innermost_module(full_qualifier):
             module_package = ""
             attribute = ""
 
+    assert module_package + ("." + attribute if attribute != "" else "") == full_qualifier
+
     return module_package, attribute

@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 from .interactive import interactive
 from .pyexplorer import dir_filter, import_module, process_attribute, attribute_format, module_format, extract, extract_package
+from .utilities import find_innermost_module
 import logging
 import __builtin__
 
@@ -18,7 +19,6 @@ def parse_args():
     parser.add_argument("-a", action="store_true", help="Show everything inside the module/package.")
     # noinspection PyTypeChecker
     parser.add_argument("--level", type=int, default=0, help="List all methods inherited up to this level.")
-    parser.add_argument("--debug", action="store_true", default=False, help="Debug mode.")
 
     return parser.parse_args()
 
@@ -36,21 +36,11 @@ def main():
     if not args.a:
         filters.append(dir_filter)
 
-    # Try importing the module specified in the command line.
-    # logging.config
-    # logging.config.fileConfig
-    for i in range(args.module.count(".") + 1):
-        try:
-            module_package_name = args.module.rsplit('.', i)[0]
-            _ = import_module(module_package_name)
-            local_path = ".".join(args.module.rsplit('.', i)[1:])
-            break
-        except ImportError:
-            module_package_name = ""
-            local_path = ""
+    # <package>.<module>.<function> -> "<package>.<module>", "<function>"
+    module_package_name, attribute_name = find_innermost_module(args.module)
 
     if args.debug:
-        assert ".".join(filter(lambda s: s != "", [module_package_name, local_path])) == args.module
+        assert ".".join(filter(lambda s: s != "", [module_package_name, attribute_name])) == args.module
 
     if not module_package_name:
         attribute = getattr(__builtin__, args.module)
@@ -58,7 +48,7 @@ def main():
         formatter = attribute_format
     else:
         module_package = import_module(module_package_name)
-        if not local_path:
+        if not attribute_name:
             module_package = import_module(module_package_name)
 
             if hasattr(module_package, "__path__"):
@@ -69,8 +59,8 @@ def main():
             formatter = module_format
         else:
             parent_scope = module_package
-            for i in range(local_path.count(".") + 1):
-                attribute_name = local_path.split(".")[i]
+            for i in range(attribute_name.count(".") + 1):
+                attribute_name = attribute_name.split(".")[i]
                 attribute = getattr(parent_scope, attribute_name)
                 parent_scope = attribute
 
