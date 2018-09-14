@@ -1,9 +1,8 @@
 from argparse import ArgumentParser
 from .interactive import interactive
 from .pyexplorer import dir_filter, import_module, process_attribute, attribute_format, module_format, extract, extract_package
-from .utilities import find_innermost_module
+from .utilities import find_innermost_module, extract_builtin_attribute
 import logging
-import __builtin__
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +39,7 @@ def main():
     module_package_name, attribute_name = find_innermost_module(args.module)
 
     if not module_package_name:
-        attribute = getattr(__builtin__, args.module)
+        attribute = extract_builtin_attribute(args.module)
         c = process_attribute(attribute, lambda x: all([f(x) for f in filters]))
         formatter = attribute_format
     else:

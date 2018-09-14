@@ -1,5 +1,11 @@
 from importlib import import_module
 
+try:
+    import __builtin__ as builtins_module
+except ImportError:
+    # noinspection Annotator
+    import builtins as builtins_module
+
 
 def find_innermost_module(full_qualifier):
     """
@@ -43,3 +49,14 @@ def find_innermost_module(full_qualifier):
         assert module_package + ("." + attribute if attribute != "" else "") == full_qualifier
 
     return module_package, attribute
+
+
+def extract_builtin_attribute(attribute_name):
+    """
+    Return the attribute with name 'attribute_name' from the builtins' definitions, raise an exception if it doesn't
+    exists
+
+    :param attribute_name:
+    :return:
+    """
+    return getattr(builtins_module, attribute_name)
