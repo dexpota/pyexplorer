@@ -37,7 +37,7 @@ def main():
     if not args.a:
         filters.append(dir_filter)
 
-    # <package>.<module>.<function> -> "<package>.<module>", "<function>"
+    # <package>.<module>.<attribute>.<attribute> -> "<package>.<module>", "<attribute>.<attribute>"
     module_package_name, attribute_name = find_innermost_module(args.module)
 
     if not module_package_name and not attribute_name:

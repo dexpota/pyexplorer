@@ -41,10 +41,15 @@ def discovery_module(module, attribute_filter):
 
 
 def discovery_attribute(attribute, attribute_filter):
-    if (isinstance(attribute, types.TypeType)
-            or isinstance(attribute, types.ClassType)
-            or isinstance(attribute, types.ObjectType)):
-        # we can use the same logic for modules
+    # the order of these branches is important
+    if (isinstance(attribute, types.FunctionType)
+            or isinstance(attribute, types.BuiltinFunctionType)
+            or isinstance(attribute, types.MethodType)
+            or isinstance(attribute, types.BuiltinMethodType)):
+        return [attribute]
+    elif isinstance(attribute, types.TypeType) or isinstance(attribute, types.ClassType):
+        return discovery_module(attribute, attribute_filter)
+    elif isinstance(attribute, types.ObjectType):
         return discovery_module(attribute, attribute_filter)
     else:
         return [attribute]
