@@ -1,10 +1,12 @@
-from argparse import ArgumentParser
 from .interactive import interactive
 from .filters import dir_filter
 from .utilities import find_innermost_module, extract_builtin_attribute
 from .discovery import discovery_package, discovery_module, discovery_attribute
-import logging
+from .formatters import module_format, attribute_format
+from argparse import ArgumentParser
 from importlib import import_module
+import logging
+import types
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +71,10 @@ def main():
         c = discovery_attribute(attribute, lambda x: all([f(x) for f in filters]))
 
     for content in c:
-        print(content)
+        if isinstance(content, types.ModuleType):
+            module_format(content)
+        else:
+            attribute_format(content)
 
 
 if __name__ == "__main__":

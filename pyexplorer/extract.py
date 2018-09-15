@@ -1,22 +1,17 @@
 
 
-def extract_module_information(module):
-    type_name = type(module).__name__
-    module_name = module.__name__
-    doc = module.__doc__
+def extract_basic_information(entity):
+    if hasattr(entity, "__name__"):
+        entity_name = entity.__name__
+    else:
+        entity_name = "No name"
+        print("No __name__ attribute")
 
-    if not doc:
-        doc = "no docstring"
+    type_name = type(entity).__name__
 
-    return type_name, module_name, doc
+    if hasattr(entity, "__doc__"):
+        entity_docstring = entity.__doc__
+    else:
+        entity_docstring = "No docstring"
 
-
-def extract_attribute_information(attribute):
-    type_name = type(attribute).__name__
-    attribute_name = attribute.__name__
-    doc = attribute.__doc__
-
-    if not doc:
-        doc = "no docstring"
-
-    return type_name, attribute_name, doc
+    return type_name, entity_name, entity_docstring

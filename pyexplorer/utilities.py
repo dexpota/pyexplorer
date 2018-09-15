@@ -1,10 +1,5 @@
 from importlib import import_module
-
-try:
-    import __builtin__ as builtins_module
-except ImportError:
-    # noinspection Annotator
-    import builtins as builtins_module
+from . import builtins_module
 
 
 def find_innermost_module(full_qualifier):
