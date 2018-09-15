@@ -8,10 +8,15 @@
 
 ## Usage
 
-To start using `pyexplorer` just type the command followed by the name of the package, module 
-or attribute.  
+To start using `pyexplorer` just type the command followed by the name of the
+package, module or attribute
 
 `pyexplorer <package>.<module>.<attribute>`
+
+You can start exploring a package by typing its name. This will shows you a
+list of its modules and subpackages.
+
+`pyexplorer <package>`
 
 ## Installation
 
