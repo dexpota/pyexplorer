@@ -6,9 +6,16 @@
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/pyexplorer.svg?style=flat-square)](https://pypi.python.org/pypi/pyexplorer/)
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://dexpota.mit-license.org)
 
+## Usage
+
+To start using `pyexplorer` just type the command followed by the name of the package, module 
+or attribute.  
+
+`pyexplorer <package>.<module>.<attribute>`
+
 ## Installation
 
-You can install the latest released version of **pyexplorer** using `pip`.
+You can install the latest released version of `pyexplorer` using `pip`.
 
 `pip install pyexplorer`
 
