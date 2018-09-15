@@ -1,7 +1,5 @@
-from importlib import import_module
 from termcolor import colored
 import inspect
-import types
 
 
 def module_format(contents):
@@ -35,52 +33,3 @@ def attribute_format(contents):
         ))
         print("")
     return
-
-
-def process_attribute(attribute, attribute_filter):
-    if (isinstance(attribute, types.FunctionType)
-        or isinstance(attribute, types.BuiltinFunctionType)
-        or isinstance(attribute, types.MethodType)
-        or isinstance(attribute, types.BuiltinMethodType)):
-        type_name = type(attribute).__name__
-        doc = attribute.__doc__
-        if not doc:
-            doc = "no docstring"
-
-        return [(type_name, attribute.__name__, doc)]
-    elif isinstance(attribute, types.TypeType) or isinstance(attribute, types.ClassType):
-        attributes = extract(attribute, attribute_filter)
-        return attributes
-    elif isinstance(attribute, types.ObjectType):
-        attributes = extract(attribute, attribute_filter)
-        return attributes
-    else:
-        return [(type(attribute).__name__, attribute, "no doc")]
-
-
-def _check_base_classes(_class, _method_name, current, depth):
-    if current == depth:
-        return _method_name in _class.__dict__
-
-    for base in _class.__bases__:
-        if _method_name in base.__dict__:
-            return True
-        if current < depth and _check_base_classes(base, _method_name, current + 1, depth):
-            return True
-    return False
-
-
-def method_filter(item, _class, depth=0):
-    return _check_base_classes(_class, item, 0, depth)
-
-
-def dir_filter(item):
-    """
-    Accept each item which doesn't start with _
-    :type item: str
-    :param item: a string item to filter
-    :return: true if item doesn't start with _
-    """
-    return not item.startswith("_")
-
-

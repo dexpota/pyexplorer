@@ -1,9 +1,10 @@
 from argparse import ArgumentParser
 from .interactive import interactive
-from .pyexplorer import dir_filter, import_module, process_attribute, attribute_format, module_format
+from .filters import dir_filter
 from .utilities import find_innermost_module, extract_builtin_attribute
-from .discovery import discovery_package, discovery_module
+from .discovery import discovery_package, discovery_module, discovery_attribute
 import logging
+from importlib import import_module
 
 logger = logging.getLogger(__name__)
 
@@ -40,12 +41,13 @@ def main():
     module_package_name, attribute_name = find_innermost_module(args.module)
 
     if not module_package_name and not attribute_name:
+        # builtin
         # if module_package_name is empty we are processing a builtin attribute
         attribute = extract_builtin_attribute(args.module)
 
-        c = process_attribute(attribute, lambda x: all([f(x) for f in filters]))
-        formatter = attribute_format
+        c = discovery_attribute(attribute, lambda x: all([f(x) for f in filters]))
     elif module_package_name and not attribute_name:
+        # module or package
         # everything for python is a module, at least is imported in the same way
         module_package = import_module(module_package_name)
 
@@ -54,9 +56,8 @@ def main():
             c = discovery_package(module_package, lambda x: all([f(x) for f in filters]))
         else:
             c = discovery_module(module_package, lambda x: all([f(x) for f in filters]))
-
-        formatter = module_format
     else:
+        # attribute inside module or package
         module_package = import_module(module_package_name)
 
         parent_scope = module_package
@@ -65,11 +66,10 @@ def main():
             attribute = getattr(parent_scope, attribute_name)
             parent_scope = attribute
 
-        c = process_attribute(attribute, lambda x: all([f(x) for f in filters]))
-        formatter = attribute_format
+        c = discovery_attribute(attribute, lambda x: all([f(x) for f in filters]))
 
-    # use formatter to output the extracted information
-    formatter(c)
+    for content in c:
+        print(content)
 
 
 if __name__ == "__main__":
