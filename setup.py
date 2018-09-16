@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyexplorer",
-    version="0.1a0",
+    version="0.1a1",
     author="Fabrizio Destro",
     author_email="destro.fabrizio@gmail.com",
     entry_points={
@@ -17,7 +17,8 @@ setuptools.setup(
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
-        "Programming Language :: Python :: 2"
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3"
     ],
     install_requires=[
         "termcolor",
