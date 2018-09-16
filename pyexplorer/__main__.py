@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from .interactive import interactive
 from .filters import dir_filter
 from .utilities import find_innermost_module, extract_builtin_attribute

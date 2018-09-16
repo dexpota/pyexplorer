@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 
 
 def _check_base_classes(_class, _method_name, current, depth):

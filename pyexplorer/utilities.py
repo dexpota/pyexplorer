@@ -1,5 +1,6 @@
+from __future__ import unicode_literals
 from importlib import import_module
-from . import builtins_module
+from . import builtins_module, text
 
 
 def find_innermost_module(full_qualifier):
@@ -43,7 +44,7 @@ def find_innermost_module(full_qualifier):
         # When full_qualifier is a builtin then we don't have any value set.
         assert module_package + ("." + attribute if attribute != "" else "") == full_qualifier
 
-    return module_package, attribute
+    return text(module_package), text(attribute)
 
 
 def extract_builtin_attribute(attribute_name):

@@ -21,7 +21,8 @@ setuptools.setup(
     ],
     install_requires=[
         "termcolor",
-        "prompt_toolkit"
+        "prompt_toolkit",
+        "future",
     ],
     url="https://github.com/dexpota/pyexplorer",
     packages=setuptools.find_packages(),

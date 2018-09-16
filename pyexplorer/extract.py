@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 
 
 def extract_basic_information(entity):
@@ -5,7 +6,6 @@ def extract_basic_information(entity):
         entity_name = entity.__name__
     else:
         entity_name = "No name"
-        print("No __name__ attribute")
 
     type_name = type(entity).__name__
 

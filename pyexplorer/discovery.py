@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from importlib import import_module
 from glob import glob
 import types
@@ -7,6 +8,7 @@ import os
 def discovery_package(package, attribute_filter):
     """
     Extract from a package
+    :type package: types.ModuleType
     :param package:
     :param attribute_filter:
     :return:
