@@ -1,6 +1,6 @@
 -i https://pypi.org/simple
 future==0.17.1
-prompt-toolkit==2.0.7
-six==1.11.0
+prompt-toolkit==2.0.9
+six==1.12.0
 termcolor==1.1.0
 wcwidth==0.1.7
