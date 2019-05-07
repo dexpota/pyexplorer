@@ -14,4 +14,3 @@ future = "*"
 [dev-packages]
 pytest = "*"
 tox = "*"
-coala-bears = "*"
